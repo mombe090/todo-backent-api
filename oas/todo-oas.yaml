@@ -1,0 +1,233 @@
+---
+openapi: 3.0.0
+info:
+  title: TodoList APP
+  description: A simple to show the full lifecycle of an application using the best tools (DevOps)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    name: Mamadou Yaya DIALLO
+    url: http://swagger.io
+    email: yayamombeya090@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: http://localhost:8080
+paths:
+  /todos:
+    get:
+      tags:
+      - GET TODOS
+      summary: Returns all todos availables in the DB
+      description: Returns all todos availables in the DB
+      operationId: findTodos
+      responses:
+        "200":
+          description: List of todos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RESPONSE'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+      - ADD NEW TODO IN DB
+      summary: Creates a new todo in the database.
+      description: Creates a new todo in the database.
+      operationId: AddNewTodo
+      requestBody:
+        description: TODO to add to the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ADDTODO'
+        required: true
+      responses:
+        "200":
+          description: todo response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TODO'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /todos/{id}:
+    get:
+      tags:
+      - GET A SPECIFIQUE TODO
+      summary: Returns a single todo base on id
+      description: Returns a single todo base on id
+      operationId: findTodoById
+      parameters:
+      - name: id
+        in: path
+        description: ID of todo to fetch
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: todo response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SINGLE_RESPONSE'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      tags:
+      - UPDATE EXISTING TODO IN DB
+      summary: Update an existing todo in the database.
+      description: Update an existing todo in the database.
+      operationId: UpdateTodo
+      parameters:
+      - name: id
+        in: path
+        description: ID of todo to update
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: TODO to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UPDATE_TODO'
+        required: true
+      responses:
+        "202":
+          description: todo response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TODO'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      tags:
+      - DELETE A TODO
+      summary: deletes a single todo based on the ID supplied
+      description: deletes a single todo based on the ID supplied
+      operationId: deleteTodoById
+      parameters:
+      - name: id
+        in: path
+        description: ID of todo to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: todo deleted
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    TODO:
+      required:
+      - createdAt
+      - id
+      - status
+      - title
+      - updatedAt
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        status:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    UPDATE_TODO:
+      required:
+      - status
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        status:
+          type: boolean
+    Error:
+      required:
+      - message
+      type: object
+      properties:
+        message:
+          type: string
+    RESPONSE:
+      required:
+      - statusCode
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int64
+        message:
+          type: array
+          items:
+            $ref: '#/components/schemas/MESSAGE'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TODO'
+    SINGLE_RESPONSE:
+      required:
+      - statusCode
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int64
+        message:
+          type: array
+          items:
+            $ref: '#/components/schemas/MESSAGE'
+        data:
+          $ref: '#/components/schemas/TODO'
+    MESSAGE:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    ADDTODO:
+      required:
+      - title
+      type: object
+      properties:
+        title:
+          type: string
