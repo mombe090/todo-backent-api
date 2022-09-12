@@ -5,6 +5,7 @@ import com.mombesoft.tutorials.todobackentapi.dto.TodoDto;
 import com.mombesoft.tutorials.todobackentapi.services.impl.TodoSvcImpl;
 import com.mombesoft.tutorials.todobackentapi.utils.ResponseHandler;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.mombesoft.tutorials.todobackentapi.utils.ResponseHandler.getNotFoundEntity;
 
+@Slf4j
 @RestController
 @RequestMapping({"/", "/todos"})
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class TodoController {
 
     @GetMapping()
     public ResponseEntity<Object> todos() {
+        log.info("Reception de la requete get all todos");
         return ResponseHandler
                 .builder()
                 .statusCode(HttpStatus.OK)
