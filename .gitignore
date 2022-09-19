@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 deployment/data/
+.mvn/deployment
 
 ### STS ###
 .apt_generated

@@ -1,9 +1,9 @@
 spring:
   data:
     mongodb:
-      host: localhost
+      host: 192.168.99.19
       port: 27017
-      username: admin
-      password: admin
+      username: todo-user
+      password: password
       database: todos
-      authentication-database: admin
+      authentication-database: todos

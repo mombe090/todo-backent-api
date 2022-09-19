@@ -19,9 +19,9 @@ public class TodoBackentApiApplication {
 	@Bean
 	CommandLineRunner initDBData(TodoSvcImpl todoSvc) {
 		return args -> {
-			todoSvc.createTodo(
+			/*todoSvc.createTodo(
 					TodoDto.builder().title("Finaliser la partie backend").build()
-			);
+			);*/
 		};
 	}
 
